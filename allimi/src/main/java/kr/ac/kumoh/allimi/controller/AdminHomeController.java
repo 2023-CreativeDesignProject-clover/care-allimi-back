@@ -2,7 +2,6 @@ package kr.ac.kumoh.allimi.controller;
 
 import kr.ac.kumoh.allimi.domain.Facility;
 import kr.ac.kumoh.allimi.dto.admin.UserListAdminDTO;
-import kr.ac.kumoh.allimi.dto.facility.FacilityInfoDto;
 import kr.ac.kumoh.allimi.dto.nhresident.NHResidentResponse;
 import kr.ac.kumoh.allimi.exception.FacilityException;
 import kr.ac.kumoh.allimi.exception.user.UserException;

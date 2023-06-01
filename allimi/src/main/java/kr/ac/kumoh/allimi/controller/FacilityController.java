@@ -3,9 +3,7 @@ package kr.ac.kumoh.allimi.controller;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import kr.ac.kumoh.allimi.domain.Facility;
-import kr.ac.kumoh.allimi.dto.facility.AddFacilityDTO;
-import kr.ac.kumoh.allimi.dto.facility.EditFacilityDTO;
-import kr.ac.kumoh.allimi.dto.facility.FacilityInfoDto;
+import kr.ac.kumoh.allimi.dto.FacilityDTO;
 import kr.ac.kumoh.allimi.exception.FacilityException;
 import kr.ac.kumoh.allimi.exception.InputException;
 import kr.ac.kumoh.allimi.service.FacilityService;
@@ -32,7 +30,7 @@ public class FacilityController {
 
   //시설 추가
   @PostMapping("/facilities")
-  public ResponseEntity addFacility(@Valid @RequestBody AddFacilityDTO dto) { // name, address, tel, fm_name
+  public ResponseEntity addFacility(@Valid @RequestBody FacilityDTO.Add dto) { // name, address, tel, fm_name
     Long facilityId = facilityService.addFacility(dto);
     Map<String, Long> map = new HashMap<>();
     map.put("facility_id", facilityId);
@@ -54,7 +52,7 @@ public class FacilityController {
 
   //시설 수정
   @PatchMapping("/facilities")
-  public ResponseEntity modifyFacility(@NotNull @RequestBody EditFacilityDTO dto) throws Exception { // facility_id, name, address, tel, fm_name
+  public ResponseEntity modifyFacility(@NotNull @RequestBody FacilityDTO.Edit dto) throws Exception { // facility_id, name, address, tel, fm_name
     Long facilityId = facilityService.editFacility(dto);
 
     Map<String, Long> map = new HashMap<>();
@@ -69,7 +67,7 @@ public class FacilityController {
     if (facilityId == null)
       throw new InputException("FacilityController 시설 정보 조회: facility_id가 null로 들어옴. 사용자의 잘못된 요청");
 
-    FacilityInfoDto dto = facilityService.getInfo(facilityId);
+    FacilityDTO.Info dto = facilityService.getInfo(facilityId);
 
     return ResponseEntity.status(HttpStatus.OK).body(dto);
   }

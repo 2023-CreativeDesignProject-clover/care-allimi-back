@@ -1,8 +1,4 @@
 //package kr.ac.kumoh.allimi.controller;
-//
-//import kr.ac.kumoh.allimi.dto.facility.AddFacilityDTO;
-//import kr.ac.kumoh.allimi.dto.facility.EditFacilityDTO;
-//import kr.ac.kumoh.allimi.dto.facility.FacilityInfoDto;
 //import kr.ac.kumoh.allimi.service.FacilityService;
 //import lombok.extern.slf4j.Slf4j;
 //import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +27,7 @@
 //  @Rollback(true)
 //  public void addFacility() {
 //    log.info("시설 추가 테스트함@@");
-//    AddFacilityDTO dto = AddFacilityDTO.builder()
+//    FacilityDTO.Add dto = FacilityDTO.Add.builder()
 //            .name("금오요양원")
 //            .address("구미시")
 //            .tel("01000000000")
@@ -40,7 +36,7 @@
 //
 //    Long facilityId = facilityService.addFacility(dto);
 //
-//    FacilityInfoDto dto2 = facilityService.getInfo(facilityId);
+//    FacilityDTO.Info dto2 = facilityService.getInfo(facilityId);
 //
 //    assertThat("금오요양원").isEqualTo(dto2.getName());
 //    assertThat("구미시").isEqualTo(dto2.getAddress());
@@ -54,7 +50,7 @@
 //  @DisplayName("시설 삭제 테스트")
 //  @Rollback(true)
 //  public void deleteFacility() {
-//    AddFacilityDTO dto = AddFacilityDTO.builder()
+//    FacilityDTO.Add dto = FacilityDTO.Add.builder()
 //            .name("금오요양원")
 //            .address("구미시")
 //            .tel("01000000000")
@@ -70,7 +66,7 @@
 //    }
 //
 //    try {
-//      FacilityInfoDto dto3 = facilityService.getInfo(facilityId);
+//      FacilityDTO.Info dto3 = facilityService.getInfo(facilityId);
 //      assertThat("금오요양원").isEqualTo("");
 //    } catch( NoSuchElementException e) {
 //      assertThat("").isEqualTo("");
@@ -85,7 +81,7 @@
 //  @Rollback(true)
 //  public void editFacility() {
 //    log.info("시설 수정 테스트함@@");
-//    AddFacilityDTO dto = AddFacilityDTO.builder()
+//    FacilityDTO.Add dto = FacilityDTO.Add.builder()
 //            .name("금오요양원")
 //            .address("구미시")
 //            .tel("01000000000")
@@ -96,7 +92,7 @@
 //
 //
 //    //전체변경 시나리오
-//    EditFacilityDTO editDto = EditFacilityDTO.builder()
+//    FacilityDTO.Edit editDto = FacilityDTO.Edit.builder()
 //            .facility_id(facilityId)
 //            .name("쿠로미 요양원")
 //            .address("안녕")
@@ -106,7 +102,7 @@
 //
 //    facilityService.editFacility(editDto);
 //
-//    FacilityInfoDto dto2 = facilityService.getInfo(facilityId);
+//    FacilityDTO.Info dto2 = facilityService.getInfo(facilityId);
 //
 //    assertThat("쿠로미 요양원").isEqualTo(dto2.getName());
 //    assertThat("안녕").isEqualTo(dto2.getAddress());
@@ -114,7 +110,7 @@
 //    assertThat("바뀐 시설장").isEqualTo(dto2.getFm_name());
 //
 //    //부분변경 시나리오
-//    editDto = EditFacilityDTO.builder()
+//    editDto = FacilityDTO.Edit.builder()
 //            .facility_id(facilityId)
 //            .name("마멜 요양원")
 //            .build();

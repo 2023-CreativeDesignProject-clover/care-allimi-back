@@ -3,7 +3,7 @@ package kr.ac.kumoh.allimi.service;
 import kr.ac.kumoh.allimi.controller.response.VisitResponse;
 import kr.ac.kumoh.allimi.domain.*;
 import kr.ac.kumoh.allimi.domain.func.Visit;
-import kr.ac.kumoh.allimi.dto.visit.*;
+import kr.ac.kumoh.allimi.dto.VisitDTO;
 import kr.ac.kumoh.allimi.exception.*;
 import kr.ac.kumoh.allimi.exception.user.UserAuthException;
 import kr.ac.kumoh.allimi.exception.user.UserException;
@@ -28,14 +28,14 @@ public class VisitService {
     private final NHResidentRepository nhResidentRepository;
 
     //면회신청 목록보기
-    public List<VisitListDTO> visitList(Long residentId) throws Exception {
+    public List<VisitDTO.List> visitList(Long residentId) throws Exception {
 
         NHResident nhResident = nhResidentRepository.findById(residentId)
                 .orElseThrow(() -> new NoSuchElementException("입소자 찾기 실패 - resident_id에 해당하는 입소자 없음"));
 
         UserRole userRole = nhResident.getUserRole();
 
-        List<VisitListDTO> visitList = new ArrayList<>();
+        List<VisitDTO.List> visitList = new ArrayList<>();
 
         if (userRole == UserRole.MANAGER || userRole == UserRole.WORKER) { // 직원, 시설장인 경우: 시설 면회 모두 확인 가능
             Facility facility = nhResident.getFacility();
@@ -60,8 +60,8 @@ public class VisitService {
         return visitList;
     }
 
-    public List<VisitListDTO> parseVisitList(List<Visit> visits) {
-        List<VisitListDTO> visitList = new ArrayList<>();
+    public List<VisitDTO.List> parseVisitList(List<Visit> visits) {
+        List<VisitDTO.List> visitList = new ArrayList<>();
 
         for (Visit v : visits) {
             NHResident nhResident = v.getProtector();
@@ -71,7 +71,7 @@ public class VisitService {
             User user = userRepository.findUserByUserId(protector.getUser().getUserId())
                     .orElseThrow(() -> new UserException("사용자 찾기 실패 - user_id에 해당하는 사용자 없음"));
 
-            VisitListDTO dto = VisitListDTO.builder()
+          VisitDTO.List dto = VisitDTO.List.builder()
                     .visit_id(v.getId())
                     .protector_id(protector.getId())
                     .create_date(v.getCreatedDate())
@@ -89,7 +89,7 @@ public class VisitService {
     }
 
     // 면회 신청
-    public void write(VisitWriteDTO writeDTO) throws Exception {   // protector_id, dateTime, texts;
+    public void write(VisitDTO.Write writeDTO) throws Exception {   // protector_id, dateTime, texts;
         NHResident nhResident = nhResidentRepository.findById(writeDTO.getProtector_id())
                 .orElseThrow(() -> new NHResidentException("입소자 찾기 실패 - protector_id에 해당하는 입소자 없음"));
 
@@ -105,7 +105,7 @@ public class VisitService {
     }
 
     // 면회 수정
-    public void edit(VisitEditDTO editDTO) throws Exception {  // visit_id, protector_id, dateTime, texts;
+    public void edit(VisitDTO.Edit editDTO) throws Exception {  // visit_id, protector_id, dateTime, texts;
         Visit visit = visitRepository.findById(editDTO.getVisit_id())
                 .orElseThrow(() -> new NoSuchElementException("면회 찾기 실패 - 해당 면회가 존재하지 않음"));
 
@@ -130,7 +130,7 @@ public class VisitService {
     }
 
     // 면회 상태 변경 - 승인, 거절, 완료
-    public VisitResponse approval(VisitApprovalDTO approvalDTO) throws Exception {
+    public VisitResponse approval(VisitDTO.Approval approvalDTO) throws Exception {
         Visit visit = visitRepository.findById(approvalDTO.getVisit_id())
                 .orElseThrow(() -> new VisitException("면회 찾기 실패 - 해당 면회가 존재하지 않음"));
 

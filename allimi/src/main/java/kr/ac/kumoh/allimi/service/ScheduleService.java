@@ -4,10 +4,7 @@ import kr.ac.kumoh.allimi.domain.Facility;
 import kr.ac.kumoh.allimi.domain.NHResident;
 import kr.ac.kumoh.allimi.domain.func.Schedule;
 import kr.ac.kumoh.allimi.domain.UserRole;
-import kr.ac.kumoh.allimi.dto.schedule.ScheduleDeleteDTO;
-import kr.ac.kumoh.allimi.dto.schedule.ScheduleEditDTO;
-import kr.ac.kumoh.allimi.dto.schedule.ScheduleListDTO;
-import kr.ac.kumoh.allimi.dto.schedule.ScheduleWriteDTO;
+import kr.ac.kumoh.allimi.dto.ScheduleDTO;
 import kr.ac.kumoh.allimi.exception.ScheduleException;
 import kr.ac.kumoh.allimi.exception.user.UserAuthException;
 import kr.ac.kumoh.allimi.repository.FacilityRepository;
@@ -33,7 +30,7 @@ public class ScheduleService {
   private final NHResidentRepository nhResidentRepository;
   private final FacilityRepository facilityRepository;
 
-  public Long write(ScheduleWriteDTO writeDTO) throws Exception { //writer_id, date, texts
+  public Long write(ScheduleDTO.Write writeDTO) throws Exception { //writer_id, date, texts
     NHResident writer = nhResidentRepository.findById(writeDTO.getWriter_id())
       .orElseThrow(() -> new NoSuchElementException("사용자를 찾을 수 없습니다."));
 
@@ -51,7 +48,7 @@ public class ScheduleService {
     return saved.getId();
   }
 
-  public void edit(ScheduleEditDTO editDTO) throws Exception { //schedule_id, date, texts;
+  public void edit(ScheduleDTO.Edit editDTO) throws Exception { //schedule_id, date, texts;
     Schedule schedule = scheduleRepository.findById(editDTO.getSchedule_id())
       .orElseThrow(() -> new NoSuchElementException("해당 일정을 찾을 수 없습니다."));
 
@@ -63,7 +60,7 @@ public class ScheduleService {
     schedule.editSchedule(writer, editDTO.getDate(), editDTO.getTexts());
   }
 
-  public void delete(ScheduleDeleteDTO deleteDTO) throws Exception { // schedule_id, nhr_id;
+  public void delete(ScheduleDTO.Delete deleteDTO) throws Exception { // schedule_id, nhr_id;
     Schedule schedule = scheduleRepository.findById(deleteDTO.getSchedule_id())
       .orElseThrow(() -> new NoSuchElementException("해당 일정을 찾을 수 없습니다."));
 
@@ -79,17 +76,17 @@ public class ScheduleService {
   }
 
   // 잘 안쓸듯 클라이언트에서는
-  public List<ScheduleListDTO> scheduleList(Long facility_id) throws Exception {
+  public List<ScheduleDTO.List> scheduleList(Long facility_id) throws Exception {
     Facility facility = facilityRepository.findById(facility_id)
       .orElseThrow(() -> new NoSuchElementException("해당 시설을 찾을 수 없습니다."));
 
     List<Schedule> schedules = scheduleRepository.findAllByFacility(facility)
       .orElse(new ArrayList<>());
 
-    List<ScheduleListDTO> listDTOS = new ArrayList<>();
+    List<ScheduleDTO.List> listDTOS = new ArrayList<>();
 
     for (Schedule schedule : schedules) {
-      listDTOS.add(ScheduleListDTO.builder()
+      listDTOS.add(ScheduleDTO.List.builder()
         .schedule_id(schedule.getId())
         .date(schedule.getDates())
         .texts(schedule.getTexts()).build());
@@ -98,7 +95,7 @@ public class ScheduleService {
     return listDTOS;
   }
 
-  public List<ScheduleListDTO> monthlyList(Long facility_id, String yearMonth) {
+  public List<ScheduleDTO.List> monthlyList(Long facility_id, String yearMonth) {
     Facility facility = facilityRepository.findById(facility_id)
       .orElseThrow(() -> new NoSuchElementException("해당하는 시설이 없습니다"));
 
@@ -110,10 +107,10 @@ public class ScheduleService {
     List<Schedule> schedules = scheduleRepository.findAllByMonth(facility, startDate, lastDate)
       .orElse(new ArrayList<>());
 
-    List<ScheduleListDTO> listDTOS = new ArrayList<>();
+    List<ScheduleDTO.List> listDTOS = new ArrayList<>();
 
     for (Schedule schedule : schedules) {
-      listDTOS.add(ScheduleListDTO.builder()
+      listDTOS.add(ScheduleDTO.List.builder()
         .schedule_id(schedule.getId())
         .date(schedule.getDates())
         .texts(schedule.getTexts()).build());

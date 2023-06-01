@@ -66,12 +66,15 @@ create table nhresident (
 create table notice (
    notice_id bigint not null auto_increment,
 	contents mediumtext,
-	create_date datetime,
+	created_date datetime,
 	sub_contents mediumtext,
 	target_id bigint,
     writer_id bigint,
 	primary key (notice_id)
 ) engine=InnoDB;
+
+use allimi;
+drop table notice;
 
 create table users (
    user_id bigint not null auto_increment,

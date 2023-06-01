@@ -2,10 +2,9 @@ package kr.ac.kumoh.allimi.controller;
 
 import jakarta.validation.Valid;
 import kr.ac.kumoh.allimi.controller.response.VisitResponse;
-import kr.ac.kumoh.allimi.dto.visit.*;
+import kr.ac.kumoh.allimi.dto.VisitDTO;
 import kr.ac.kumoh.allimi.exception.InputException;
 import kr.ac.kumoh.allimi.exception.VisitException;
-import kr.ac.kumoh.allimi.exception.user.UserException;
 import kr.ac.kumoh.allimi.service.VisitService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +24,7 @@ public class VisitController {
     private final VisitService visitService;
 
     @PostMapping("/visit")    // protector_id, dateTime, texts;
-    public ResponseEntity write(@Valid @RequestBody VisitWriteDTO writeDTO) throws Exception { // 면회 신청
+    public ResponseEntity write(@Valid @RequestBody VisitDTO.Write writeDTO) throws Exception { // 면회 신청
         visitService.write(writeDTO);
 
         return ResponseEntity.status(HttpStatus.OK).build();
@@ -36,13 +35,13 @@ public class VisitController {
         if (residentId == null)
             throw new InputException("VisitController 면회신청 목록: resident_id가 null. 잘못된 입력");
 
-        List<VisitListDTO> visitList = visitService.visitList(residentId);
+        List<VisitDTO.List> visitList = visitService.visitList(residentId);
 
         return ResponseEntity.status(HttpStatus.OK).body(visitList);
     }
 
     @PatchMapping("/visit")         // visit_id, protector_id, dateTime, texts;
-    public ResponseEntity edit(@Valid @RequestBody VisitEditDTO editDTO) throws Exception { // 면회 수정
+    public ResponseEntity edit(@Valid @RequestBody VisitDTO.Edit editDTO) throws Exception { // 면회 수정
         visitService.edit(editDTO);
 
         return ResponseEntity.status(HttpStatus.OK).build();
@@ -59,7 +58,7 @@ public class VisitController {
     }
 
     @PostMapping("/visit/approval")
-    public ResponseEntity approval(@Valid @RequestBody VisitApprovalDTO approvalDTO) throws Exception { // 면회 승인 상태 변경
+    public ResponseEntity approval(@Valid @RequestBody VisitDTO.Approval approvalDTO) throws Exception { // 면회 승인 상태 변경
         VisitResponse visitResponse = visitService.approval(approvalDTO); // WAITING -> REJECTED, APPROVED, COMPLETED
 
         return ResponseEntity.status(HttpStatus.OK).body(visitResponse);

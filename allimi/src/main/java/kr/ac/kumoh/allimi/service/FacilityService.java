@@ -2,9 +2,7 @@ package kr.ac.kumoh.allimi.service;
 
 import kr.ac.kumoh.allimi.domain.Facility;
 import kr.ac.kumoh.allimi.domain.User;
-import kr.ac.kumoh.allimi.dto.facility.AddFacilityDTO;
-import kr.ac.kumoh.allimi.dto.facility.EditFacilityDTO;
-import kr.ac.kumoh.allimi.dto.facility.FacilityInfoDto;
+import kr.ac.kumoh.allimi.dto.FacilityDTO;
 import kr.ac.kumoh.allimi.exception.FacilityException;
 import kr.ac.kumoh.allimi.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -29,18 +27,18 @@ public class FacilityService {
 //  private final VisitRepository visitRepository;
 //  private final AllNoticeRepository allNoticeRepository;
 
-  public Long addFacility(AddFacilityDTO dto){ // name, address, tel, fm_name
+  public Long addFacility(FacilityDTO.Add dto){ // name, address, tel, fm_name
     Facility facility = Facility.makeFacility(dto.getName(), dto.getAddress(), dto.getTel(), dto.getFm_name());
     facilityRepository.save(facility);
 
     return facility.getId();
   }
 
-  public FacilityInfoDto getInfo(Long facilityId) throws Exception {
+  public FacilityDTO.Info getInfo(Long facilityId) throws Exception {
     Facility facility = facilityRepository.findById(facilityId)
             .orElseThrow(() -> new NoSuchElementException("해당하는 시설을 찾을 수 없음"));
 
-    FacilityInfoDto dto = FacilityInfoDto.builder()
+    FacilityDTO.Info dto = FacilityDTO.Info.builder()
             .name(facility.getName())
             .tel(facility.getTel())
             .address(facility.getAddress())
@@ -50,7 +48,7 @@ public class FacilityService {
     return dto;
   }
 
-  public Long editFacility(EditFacilityDTO dto) throws Exception { // facility_id, name, address, tel, fm_name
+  public Long editFacility(FacilityDTO.Edit dto) throws Exception { // facility_id, name, address, tel, fm_name
     Facility facility = facilityRepository.findById(dto.getFacility_id())
                     .orElseThrow(() -> new FacilityException("시설을 찾을 수 없음"));
 

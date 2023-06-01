@@ -1,7 +1,7 @@
 package kr.ac.kumoh.allimi.controller;
 
 import kr.ac.kumoh.allimi.controller.response.ResponseInvitation;
-import kr.ac.kumoh.allimi.dto.facility.AddFacilityDTO;
+import kr.ac.kumoh.allimi.dto.FacilityDTO;
 import kr.ac.kumoh.allimi.dto.invitation.SendInvitationDto;
 import kr.ac.kumoh.allimi.dto.UserDTO;
 import kr.ac.kumoh.allimi.service.FacilityService;
@@ -54,7 +54,7 @@ class InvitationControllerTest {
     }
 
     //facility 하나 만들기
-    AddFacilityDTO facilityDto = AddFacilityDTO.builder()
+    FacilityDTO.Add facilityDto = FacilityDTO.Add.builder()
             .name("초대테스트요양원")
             .address("금오산")
             .tel("01000000000")
@@ -128,7 +128,7 @@ class InvitationControllerTest {
     }
 
     //facility 하나 만들기
-    AddFacilityDTO facilityDto = AddFacilityDTO.builder()
+    FacilityDTO.Add facilityDto = FacilityDTO.Add.builder()
             .name("초대테스트요양원")
             .address("금오산")
             .tel("01000000000")
