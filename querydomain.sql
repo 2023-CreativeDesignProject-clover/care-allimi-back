@@ -1,6 +1,3 @@
-	
--- CREATE DATABASE 이름 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-
 use allimi;
 
 -- drop table if exists all_notice, facility, image, letter, invitation, nhresident, notice,users, visit, schedules;
@@ -175,16 +172,3 @@ alter table schedules
    add constraint FKqi3fe7dsxx6rn4w0p41ctqtu2 
    foreign key (writer_id) 
    references nhresident (nhr_id) on delete set null;
-
-
-
-
-
-
-
-
-
-
-
-
-
