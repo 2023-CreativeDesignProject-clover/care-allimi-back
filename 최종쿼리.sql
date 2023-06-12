@@ -1,9 +1,4 @@
-	
--- CREATE DATABASE 이름 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-
 use allimi;
-
-show tables;
 
 -- drop table if exists all_notice, facility, image, letter, invitation, nhresident, notice,users, visit, schedules;
 
@@ -207,16 +202,3 @@ alter table schedules
    add constraint FKd4y4xekwahv9boo6lc8gfl3jv 
    foreign key (user_id) 
    references users (user_id) on delete cascade;
-
--- use allimi;
--- show tables;
-
--- select * from users;
--- select * from facility;
--- select * from nhresident;
--- select * from notice;
--- select * from image;
--- select * from all_notice;
--- select * from visit;
--- select * from letter;
--- select * from schedules;
