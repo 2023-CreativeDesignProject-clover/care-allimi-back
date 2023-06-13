@@ -1,20 +1,14 @@
-	
--- CREATE DATABASE 이름 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-
 use allimi;
-
-show tables;
 
 -- drop table if exists all_notice, facility, image, letter, invitation, nhresident, notice,users, visit, schedules;
 
 create table all_notice (
    allnotice_id bigint not null auto_increment,
 	contents mediumtext,
-	create_date datetime,
-	important bit,
+	created_date datetime,
+	important bit not null,
 	title text,
-	facility_id bigint not null,
-	user_id bigint,
+	writer_id bigint,
 	primary key (allnotice_id)
 ) engine=InnoDB;
 
@@ -38,9 +32,9 @@ create table image (
 create table invitation (
    invit_id bigint not null auto_increment,
 	dates date,
-	user_role smallint not null,
+	user_role varchar(255) not null,
 	facility_id bigint not null,
-    create_date date,
+    created_date date,
 	user_id bigint not null,
 	primary key (invit_id)
 ) engine=InnoDB;
@@ -48,11 +42,9 @@ create table invitation (
 create table letter (
    letter_id bigint not null auto_increment,
 	contents text,
-	create_date datetime,
-	is_read bit,
-	facility_id bigint not null,
-	nhr_id bigint not null,
-	user_id bigint,
+	created_date datetime,
+	is_read bit not null,
+	protector_id bigint,
 	primary key (letter_id)
 ) engine=InnoDB;
 
@@ -71,17 +63,19 @@ create table nhresident (
 create table notice (
    notice_id bigint not null auto_increment,
 	contents mediumtext,
-	create_date datetime,
+	created_date datetime,
 	sub_contents mediumtext,
-	facility_id bigint not null,
-	nhr_id bigint not null,
-	user_id bigint,
+	target_id bigint,
+    writer_id bigint,
 	primary key (notice_id)
 ) engine=InnoDB;
 
+use allimi;
+drop table notice;
+
 create table users (
    user_id bigint not null auto_increment,
-	current_nhresident integer,
+	current_nhresident bigint,
 	login_id varchar(255) not null,
 	user_name varchar(255),
 	passwords varchar(255) not null,
@@ -91,16 +85,12 @@ create table users (
 
 create table visit (
    visit_id bigint not null auto_increment,
-	create_date datetime,
-	phone_num varchar(255),
+	created_date datetime,
 	rej_reason varchar(255),
 	state varchar(255),
 	texts varchar(1024),
-	visitor_name varchar(255) not null,
 	want_date datetime not null,
-	facility_id bigint not null,
-	nhr_id bigint not null,
-	user_id bigint,
+	protector_id bigint,
 	primary key (visit_id)
 ) engine=InnoDB;
 
@@ -108,20 +98,15 @@ create table schedules (
    schedule_id bigint not null auto_increment,
 	dates date not null,
 	texts varchar(255) not null,
-	facility_id bigint not null,
-	user_id bigint not null,
+	writer_id bigint,
 	primary key (schedule_id)
 ) engine=InnoDB;
 
-alter table all_notice 
-   add constraint FKtch021huph6qocdd4nrftbh5 
-   foreign key (facility_id) 
-   references facility (facility_id) ON DELETE CASCADE;
    
 alter table all_notice 
-   add constraint FKobxalty2mvdlowcv0dut7fbnt 
-   foreign key (user_id) 
-   references users (user_id) ON DELETE cascade;
+   add constraint FKge6esoux37e6a90557s723i5y 
+   foreign key (writer_id) 
+   references nhresident (nhr_id) ON DELETE SET NULL;     
    
 alter table image 
    add constraint FK2upt0ce363186b049swfeec7r 
@@ -144,19 +129,9 @@ alter table invitation
    references users (user_id) ON DELETE CASCADE;
    
 alter table letter 
-   add constraint FKpwouv9ouekkmml4799v2apjdo 
-   foreign key (facility_id) 
-   references facility (facility_id) ON DELETE CASCADE;
-   
-alter table letter 
-   add constraint FKsxxggv7fnchcip0a3tnvv6lx 
-   foreign key (nhr_id) 
-   references nhresident (nhr_id) ON DELETE CASCADE;
-   
-alter table letter 
-   add constraint FK10amltainvpyo3f174ytomgal 
-   foreign key (user_id) 
-   references users (user_id) ON DELETE cascade;
+   add constraint FK69g53cnxa60sfxronrwllq515 
+   foreign key (protector_id) 
+   references nhresident (nhr_id) ON DELETE SET NULL;
    
 alter table nhresident 
    add constraint FKnc3cjtrturjr63jfahcvirmtr 
@@ -167,43 +142,33 @@ alter table nhresident
    add constraint FKdnmpm247w9y2f20hfs4ep3494 
    foreign key (user_id) 
    references users (user_id) ON DELETE CASCADE;
-   
+	
+alter table nhresident 
+   add constraint FKh3pydpi7f75txsru86a113r8g 
+   foreign key (worker_id) 
+   references nhresident (nhr_id) ON DELETE SET NULL;
+
 alter table notice 
-   add constraint FK1hh8ndxgu1rocdd32uqp7d8wx 
-   foreign key (facility_id) 
-   references facility (facility_id) ON DELETE CASCADE;
-   
-alter table notice 
-   add constraint FKmanjqcnmkea4ldktmopxql3l 
-   foreign key (nhr_id) 
+   add constraint FKfwux2apiq36fhwv1mi34u6q1k 
+   foreign key (target_id) 
    references nhresident (nhr_id) ON DELETE CASCADE;
    
 alter table notice 
-   add constraint FK6hu3mfrsmpbqjk44w2fq5t5us 
-   foreign key (user_id) 
-   references users (user_id) ON DELETE CASCADE;
+   add constraint FKijkabcs9ia42lafwb53l41yp5 
+   foreign key (writer_id) 
+   references nhresident (nhr_id) ON DELETE SET NULL;
    
 alter table visit 
-   add constraint FKd0jrm155ko61rtlcoq27rb2lv 
-   foreign key (facility_id) 
-   references facility (facility_id) ON DELETE CASCADE;
+	add constraint FKc62fw5r2mt132b4lkggavq2h0 
+	foreign key (protector_id) 
+	references nhresident (nhr_id) ON DELETE SET NULL;
    
-alter table visit 
-   add constraint FKrwyfqhab2ioowat871omb8knf 
-   foreign key (nhr_id) 
-   references nhresident (nhr_id) ON DELETE CASCADE;
-   
-alter table visit 
-   add constraint FKcl61si34n0gd12cn9scyu5rdq 
-   foreign key (user_id) 
-   references users (user_id) ON DELETE CASCADE;
+alter table users 
+   add constraint FKhstp1gcy9o5knt2ot34e2jylj 
+   foreign key (current_nhresident) 
+   references nhresident (nhr_id) ON DELETE SET NULL;
    
 alter table schedules 
-   add constraint FK9lfqaxkg1ek6cw7e12ouqpk7f 
-   foreign key (facility_id) 
-   references facility (facility_id) ON DELETE cascade;
-       
-alter table schedules 
-   add constraint FKd4y4xekwahv9boo6lc8gfl3jv 
-   foreign key (user_id) 
-   references users (user_id) on delete cascade;
+   add constraint FKqi3fe7dsxx6rn4w0p41ctqtu2 
+   foreign key (writer_id) 
+   references nhresident (nhr_id) on delete set null;
