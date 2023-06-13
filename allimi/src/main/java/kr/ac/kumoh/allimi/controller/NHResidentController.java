@@ -3,13 +3,10 @@ package kr.ac.kumoh.allimi.controller;
 import jakarta.validation.Valid;
 import kr.ac.kumoh.allimi.controller.response.NHResidentDetailResponse;
 import kr.ac.kumoh.allimi.controller.response.ResponseResident;
-import kr.ac.kumoh.allimi.dto.nhresident.NHResidentUFDTO;
-import kr.ac.kumoh.allimi.dto.nhresident.NHResidentDTO;
-import kr.ac.kumoh.allimi.dto.nhresident.NHResidentEditDTO;
-import kr.ac.kumoh.allimi.dto.nhresident.NHResidentResponse;
+import kr.ac.kumoh.allimi.dto.NHResidentDTO;
+import kr.ac.kumoh.allimi.controller.response.NHResidentResponse;
 import kr.ac.kumoh.allimi.exception.FacilityException;
 import kr.ac.kumoh.allimi.exception.InputException;
-import kr.ac.kumoh.allimi.exception.DataAlreadyExistsException;
 import kr.ac.kumoh.allimi.exception.user.UserException;
 import kr.ac.kumoh.allimi.service.NHResidentService;
 import kr.ac.kumoh.allimi.service.UserService;
@@ -37,7 +34,7 @@ public class NHResidentController {
 
   //새 입소자 추가 or 직원, 시설장 등록
   @PostMapping("/nhResidents")
-  public ResponseEntity addNHResident(@Valid @RequestBody NHResidentDTO dto) throws Exception { // user_id, facility_id, resident_name, birth, user_role, health_info;
+  public ResponseEntity addNHResident(@Valid @RequestBody NHResidentDTO.Add dto) throws Exception { // user_id, facility_id, resident_name, birth, user_role, health_info;
     // 이미 직원 등록 -> 더이상 등록 X
     // 이미 입소자 등록 -> 추가 입소자 등록 O
 
@@ -70,7 +67,7 @@ public class NHResidentController {
 
   //입소자 수정
   @PatchMapping("/nhResidents") //resident_id, resident_name, birth, health_info
-  public ResponseEntity nhresidentEdit(@Valid @RequestBody NHResidentEditDTO editDTO) throws Exception {
+  public ResponseEntity nhresidentEdit(@Valid @RequestBody NHResidentDTO.Edit editDTO) throws Exception {
     nhResidentService.editNHResident(editDTO);
 
     Map<String, Long> map = new HashMap<>();
@@ -140,7 +137,7 @@ public class NHResidentController {
 
   // worker_id 설정 (요양보호사가 관리하는 입소자 등록)
   @PostMapping("/nhResidents/manage")
-  public ResponseEntity setWorker(@Valid @RequestBody NHResidentUFDTO setDTO) throws Exception {  // resdient_id, worker_id, facility_id;
+  public ResponseEntity setWorker(@Valid @RequestBody NHResidentDTO.UF setDTO) throws Exception {  // resdient_id, worker_id, facility_id;
     nhResidentService.setWorker(setDTO);
 
     return ResponseEntity.status(HttpStatus.OK).build();

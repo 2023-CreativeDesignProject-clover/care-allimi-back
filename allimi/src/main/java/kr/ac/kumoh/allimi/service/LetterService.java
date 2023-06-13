@@ -3,9 +3,8 @@ package kr.ac.kumoh.allimi.service;
 import kr.ac.kumoh.allimi.domain.*;
 import kr.ac.kumoh.allimi.domain.func.Letter;
 import kr.ac.kumoh.allimi.domain.func.Notice;
-import kr.ac.kumoh.allimi.dto.letter.LetterEditDto;
-import kr.ac.kumoh.allimi.dto.letter.LetterListDTO;
-import kr.ac.kumoh.allimi.dto.letter.LetterWriteDto;
+import kr.ac.kumoh.allimi.dto.LetterDTO;
+
 import kr.ac.kumoh.allimi.exception.*;
 import kr.ac.kumoh.allimi.exception.user.UserAuthException;
 import kr.ac.kumoh.allimi.repository.*;
@@ -28,7 +27,7 @@ public class LetterService {
   private final LetterRepository letterRepository;
   private final NHResidentRepository nhResidentRepository;
 
-  public Long write(LetterWriteDto dto) throws Exception {  // nhresident_id, contents
+  public Long write(LetterDTO.Write dto) throws Exception {  // nhresident_id, contents
     NHResident writer = nhResidentRepository.findById(dto.getNhresident_id())
             .orElseThrow(() -> new NoSuchElementException("글쓰는 사람(nhResident) not found"));
 
@@ -47,7 +46,7 @@ public class LetterService {
     return savedLetter.getLetterId();
   }
 
-  public void edit(LetterEditDto dto) throws Exception {                // letter_id, writer_id, contents
+  public void edit(LetterDTO.Edit dto) throws Exception {                // letter_id, writer_id, contents
     Letter letter = letterRepository.findByLetterId(dto.getLetter_id())
             .orElseThrow(() -> new NoSuchElementException("letter를 찾을 수 없음"));
 
@@ -62,7 +61,7 @@ public class LetterService {
 
   //한마디 목록보기
   @Transactional(readOnly = true)
-  public List<LetterListDTO> letterList(Long residentId) throws Exception {
+  public List<LetterDTO.List> letterList(Long residentId) throws Exception {
     
     NHResident writer = nhResidentRepository.findById(residentId)
       .orElseThrow(() -> new NoSuchElementException("해당하는 입소자가 없습니다"));
@@ -81,7 +80,7 @@ public class LetterService {
     }
 
     // Response
-    List<LetterListDTO> letterList = new ArrayList<>(); //letter_id, nhreaident_id, user_id, nhrname, username, contents, is_read, createDate
+    List<LetterDTO.List> letterList = new ArrayList<>(); //letter_id, nhreaident_id, user_id, nhrname, username, contents, is_read, createDate
 
     for (Letter letter : letters) {
       NHResident findNHResident = letter.getProtector();
@@ -95,7 +94,7 @@ public class LetterService {
         findResidentName = findNHResident.getName();
       }
 
-      LetterListDTO dto = LetterListDTO.builder()
+      LetterDTO.List dto = LetterDTO.List.builder()
               .letter_id(letter.getLetterId())
               .nhresident_id(findResidentId)
               .nhr_name(findResidentName)

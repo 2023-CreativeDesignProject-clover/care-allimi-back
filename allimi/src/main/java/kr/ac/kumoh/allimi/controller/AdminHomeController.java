@@ -1,15 +1,11 @@
 package kr.ac.kumoh.allimi.controller;
 
-import kr.ac.kumoh.allimi.domain.Facility;
-import kr.ac.kumoh.allimi.dto.admin.UserListAdminDTO;
-import kr.ac.kumoh.allimi.dto.nhresident.NHResidentResponse;
 import kr.ac.kumoh.allimi.exception.FacilityException;
 import kr.ac.kumoh.allimi.exception.user.UserException;
 import kr.ac.kumoh.allimi.service.FacilityService;
 import kr.ac.kumoh.allimi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -18,10 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.List;
 
 @Controller
 @Slf4j

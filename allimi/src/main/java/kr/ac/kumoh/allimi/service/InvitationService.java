@@ -2,7 +2,7 @@ package kr.ac.kumoh.allimi.service;
 
 import kr.ac.kumoh.allimi.controller.response.ResponseInvitation;
 import kr.ac.kumoh.allimi.domain.*;
-import kr.ac.kumoh.allimi.dto.invitation.SendInvitationDto;
+import kr.ac.kumoh.allimi.dto.InvitationDTO;
 import kr.ac.kumoh.allimi.exception.*;
 import kr.ac.kumoh.allimi.repository.FacilityRepository;
 import kr.ac.kumoh.allimi.repository.InvitationRepository;
@@ -28,7 +28,7 @@ public class InvitationService {
   private final UserRepository userRepository;
   private final FacilityRepository facilityRepository;
 
-  public Long sendInvitation(SendInvitationDto dto) throws Exception { //user_id, facility_id, userROle
+  public Long sendInvitation(InvitationDTO.Send dto) throws Exception { //user_id, facility_id, userROle
 
     //UserRole의 포맷이 정확한지 확인
     if (!EnumUtils.isValidEnum(UserRole.class, dto.getUser_role())) {

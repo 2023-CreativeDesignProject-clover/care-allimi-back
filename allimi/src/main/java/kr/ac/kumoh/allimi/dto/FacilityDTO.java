@@ -20,6 +20,7 @@ public class FacilityDTO {
     private String tel;
     private String fm_name;
   }
+
   @Getter
   @Builder
   @AllArgsConstructor
@@ -31,6 +32,7 @@ public class FacilityDTO {
     private String tel;
     private String fm_name;
   }
+
   @Getter
   @Builder
   public static class Info {

@@ -2,7 +2,7 @@ package kr.ac.kumoh.allimi.controller;
 
 import jakarta.validation.Valid;
 import kr.ac.kumoh.allimi.controller.response.ResponseInvitation;
-import kr.ac.kumoh.allimi.dto.invitation.SendInvitationDto;
+import kr.ac.kumoh.allimi.dto.InvitationDTO;
 import kr.ac.kumoh.allimi.exception.InputException;
 import kr.ac.kumoh.allimi.service.InvitationService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class InvitationController {
 
   //초대보내기: facility -> user //phone_num으로 받아서 해당하는 user가 있는지 확인 후 진행 - 이미 있는 초대장 409 / 이미 있는 입소자 406
   @PostMapping(value = "/invitations")
-  public ResponseEntity sendInvitation(@Valid @RequestBody SendInvitationDto dto) throws Exception { //user_id, facility_id, userRole
+  public ResponseEntity sendInvitation(@Valid @RequestBody InvitationDTO.Send dto) throws Exception { //user_id, facility_id, userRole
     Long inviteId = invitationService.sendInvitation(dto);
 
     Map<String, Long> map = new HashMap<>();

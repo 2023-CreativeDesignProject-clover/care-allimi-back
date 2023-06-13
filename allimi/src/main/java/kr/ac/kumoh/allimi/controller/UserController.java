@@ -3,7 +3,6 @@ package kr.ac.kumoh.allimi.controller;
 import jakarta.validation.Valid;
 import kr.ac.kumoh.allimi.controller.response.ResponseLogin;
 import kr.ac.kumoh.allimi.controller.response.ResponseResidentDetail;
-import kr.ac.kumoh.allimi.dto.admin.UserListAdminDTO;
 import kr.ac.kumoh.allimi.dto.ids.UserNHResidentDTO;
 import kr.ac.kumoh.allimi.dto.UserDTO;
 import kr.ac.kumoh.allimi.exception.InputException;
@@ -48,7 +47,7 @@ public class UserController {
 //  //전체 user조회 - 관리자용
 //  @GetMapping("/users")
 //  public ResponseEntity getAllUser() throws Exception {
-//    List<UserListAdminDTO> dtos = userService.getAllUser();
+//    List<<UserDTO.ListAdmin> dtos = userService.getAllUser();
 //
 //    return ResponseEntity.status(HttpStatus.OK).body(dtos);
 //  }
@@ -98,7 +97,7 @@ public class UserController {
   //전화번호 맞는 user 모두 출력
   @GetMapping(value = "/users/phone-num/{phone_num}")
   public ResponseEntity getUserByPhoneNum(@PathVariable("phone_num") String phoneNum) throws Exception {
-    List<UserListAdminDTO> dtos = userService.getUserByPhoneNum(phoneNum);
+    List<UserDTO.ListAdmin> dtos = userService.getUserByPhoneNum(phoneNum);
 
     return ResponseEntity.status(HttpStatus.OK).body(dtos);
   }

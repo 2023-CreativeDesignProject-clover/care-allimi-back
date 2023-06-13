@@ -2,7 +2,7 @@ package kr.ac.kumoh.allimi.controller;
 
 import kr.ac.kumoh.allimi.controller.response.ResponseInvitation;
 import kr.ac.kumoh.allimi.dto.FacilityDTO;
-import kr.ac.kumoh.allimi.dto.invitation.SendInvitationDto;
+import kr.ac.kumoh.allimi.dto.InvitationDTO;
 import kr.ac.kumoh.allimi.dto.UserDTO;
 import kr.ac.kumoh.allimi.service.FacilityService;
 import kr.ac.kumoh.allimi.service.InvitationService;
@@ -69,7 +69,7 @@ class InvitationControllerTest {
       assertThat("오류나면 안됨").isEqualTo(" ");
     }
 
-    SendInvitationDto dto = SendInvitationDto.builder()
+    InvitationDTO.Send dto = InvitationDTO.Send.builder()
             .user_id(userId)
             .facility_id(facilityId)
             .user_role("PROTECTOR")
@@ -143,7 +143,7 @@ class InvitationControllerTest {
       assertThat("오류나면 안됨").isEqualTo(" ");
     }
 
-    SendInvitationDto dto = SendInvitationDto.builder()
+    InvitationDTO.Send dto = InvitationDTO.Send.builder()
             .user_id(userId)
             .facility_id(facilityId)
             .user_role("PROTECTOR")

@@ -1,4 +1,4 @@
-package kr.ac.kumoh.allimi.dto.nhresident;
+package kr.ac.kumoh.allimi.controller.response;
 
 import jakarta.validation.constraints.NotNull;
 import kr.ac.kumoh.allimi.domain.UserRole;

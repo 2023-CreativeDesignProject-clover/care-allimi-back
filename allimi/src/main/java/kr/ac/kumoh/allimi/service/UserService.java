@@ -3,8 +3,7 @@ package kr.ac.kumoh.allimi.service;
 import kr.ac.kumoh.allimi.controller.response.ResponseLogin;
 import kr.ac.kumoh.allimi.controller.response.ResponseResidentDetail;
 import kr.ac.kumoh.allimi.domain.*;
-import kr.ac.kumoh.allimi.dto.admin.UserListAdminDTO;
-import kr.ac.kumoh.allimi.dto.nhresident.NHResidentResponse;
+import kr.ac.kumoh.allimi.controller.response.NHResidentResponse;
 import kr.ac.kumoh.allimi.dto.UserDTO;
 import kr.ac.kumoh.allimi.exception.InputException;
 import kr.ac.kumoh.allimi.exception.user.UserIdDuplicateException;
@@ -91,14 +90,14 @@ public class UserService {
     return users;
   }
 
-  public List<UserListAdminDTO> getUserByPhoneNum(String phoneNum) throws Exception {
+  public List<UserDTO.ListAdmin> getUserByPhoneNum(String phoneNum) throws Exception {
     List<User> users = userRepository.findByPhoneNum(phoneNum)
             .orElseGet(() -> new ArrayList<>());
 
-    List<UserListAdminDTO> dtos  = new ArrayList<>();
+    List<UserDTO.ListAdmin> dtos  = new ArrayList<>();
 
     for (User user : users) {
-      dtos.add(UserListAdminDTO.builder()
+      dtos.add(UserDTO.ListAdmin.builder()
               .user_id(user.getUserId())
               .user_name(user.getName())
               .phone_num(user.getPhoneNum())

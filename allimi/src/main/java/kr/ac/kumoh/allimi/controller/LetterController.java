@@ -1,9 +1,7 @@
 package kr.ac.kumoh.allimi.controller;
 
 import jakarta.validation.Valid;
-import kr.ac.kumoh.allimi.dto.letter.LetterEditDto;
-import kr.ac.kumoh.allimi.dto.letter.LetterListDTO;
-import kr.ac.kumoh.allimi.dto.letter.LetterWriteDto;
+import kr.ac.kumoh.allimi.dto.LetterDTO;
 import kr.ac.kumoh.allimi.exception.InputException;
 import kr.ac.kumoh.allimi.exception.NHResidentException;
 import kr.ac.kumoh.allimi.service.LetterService;
@@ -27,7 +25,7 @@ public class LetterController {
 
   // 한마디 작성
   @PostMapping(value = "/letters")  // resident_id(글 쓰는 사람), contents
-  public ResponseEntity letterWrite(@Valid @RequestBody LetterWriteDto dto) throws Exception {
+  public ResponseEntity letterWrite(@Valid @RequestBody LetterDTO.Write dto) throws Exception {
     Long letterId = letterService.write(dto);
 
     Map<String, Long> map = new HashMap<>();
@@ -54,7 +52,7 @@ public class LetterController {
 
   // 한마디 수정
   @PatchMapping(value = "/letters") // letter_id, writer_id(nhr), contents
-  public ResponseEntity letterEdit(@Valid @RequestBody LetterEditDto dto) throws Exception {
+  public ResponseEntity letterEdit(@Valid @RequestBody LetterDTO.Edit dto) throws Exception {
     letterService.edit(dto);
 
     Map<String, Long> map = new HashMap<>();
@@ -81,7 +79,7 @@ public class LetterController {
     if (residentId == null)
       throw new InputException("LetterController 한마디 목록보기: resident_id가 null. 사용자의 잘못된 입력");
 
-    List<LetterListDTO> letterList = letterService.letterList(residentId);
+    List<LetterDTO.List> letterList = letterService.letterList(residentId);
 
     return ResponseEntity.status(HttpStatus.OK).body(letterList);
   }

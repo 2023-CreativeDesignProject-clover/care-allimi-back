@@ -6,10 +6,8 @@ import kr.ac.kumoh.allimi.domain.Facility;
 import kr.ac.kumoh.allimi.domain.NHResident;
 import kr.ac.kumoh.allimi.domain.User;
 import kr.ac.kumoh.allimi.domain.UserRole;
-import kr.ac.kumoh.allimi.dto.nhresident.NHResidentUFDTO;
-import kr.ac.kumoh.allimi.dto.nhresident.NHResidentDTO;
-import kr.ac.kumoh.allimi.dto.nhresident.NHResidentEditDTO;
-import kr.ac.kumoh.allimi.dto.nhresident.NHResidentResponse;
+import kr.ac.kumoh.allimi.dto.NHResidentDTO;
+import kr.ac.kumoh.allimi.controller.response.NHResidentResponse;
 import kr.ac.kumoh.allimi.exception.user.UserAuthException;
 import kr.ac.kumoh.allimi.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +44,7 @@ public class NHResidentService {
   }
 
   @Transactional
-  public Long addNHResident(NHResidentDTO dto) { // user_id, facility_id, resident_name, birth, user_role, health_info;
+  public Long addNHResident(NHResidentDTO.Add dto) { // user_id, facility_id, resident_name, birth, user_role, health_info;
     User user = userRepository.findUserByUserId(dto.getUser_id())
             .orElseThrow(() -> new NoSuchElementException("해당 user가 없습니다"));
 
@@ -91,7 +89,7 @@ public class NHResidentService {
     nhResidentRepository.deleteById(residentId);
   }
 
-  public void editNHResident(NHResidentEditDTO dto) throws Exception { //resident_id, resident_name, birth, health_info
+  public void editNHResident(NHResidentDTO.Edit dto) throws Exception { //resident_id, resident_name, birth, health_info
     NHResident nhResident = nhResidentRepository.findById(dto.getResident_id())
             .orElseThrow(() -> new NoSuchElementException("해당하는 resident가 없음"));
 
@@ -179,7 +177,7 @@ public class NHResidentService {
     return list;
   }
 
-  public void setWorker(NHResidentUFDTO setDTO) throws Exception {  // resdient_id, worker_id, facility_id;
+  public void setWorker(NHResidentDTO.UF setDTO) throws Exception {  // resdient_id, worker_id, facility_id;
     NHResident nhResident = nhResidentRepository.findById(setDTO.getResdient_id())
             .orElseThrow(() -> new NoSuchElementException("입소자 찾기 실패"));
 
@@ -216,7 +214,7 @@ public class NHResidentService {
 
 
 //
-//  public NHResidentResponse changeCurrentResident(NHResidentUFDTO changeDTO) throws Exception {
+//  public NHResidentResponse changeCurrentResident(NHResidentDTO.UF changeDTO) throws Exception {
 //
 //    User user = userRepository.findById(changeDTO.getUser_id())
 //            .orElseThrow(() -> new UserException("사용자 찾기 실패"));

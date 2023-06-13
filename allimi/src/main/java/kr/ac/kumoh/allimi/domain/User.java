@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @Getter
-@Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
+@Table(name = "users")
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

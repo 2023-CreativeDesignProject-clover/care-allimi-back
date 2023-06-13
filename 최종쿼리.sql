@@ -207,16 +207,3 @@ alter table schedules
    add constraint FKd4y4xekwahv9boo6lc8gfl3jv 
    foreign key (user_id) 
    references users (user_id) on delete cascade;
-
--- use allimi;
--- show tables;
-
--- select * from users;
--- select * from facility;
--- select * from nhresident;
--- select * from notice;
--- select * from image;
--- select * from all_notice;
--- select * from visit;
--- select * from letter;
--- select * from schedules;
