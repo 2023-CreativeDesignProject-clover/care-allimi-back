@@ -2,6 +2,34 @@
 창의설계프로젝트 클로버팀 요양원 알리미 앱 백엔드 리포지토리입니다<br/><br/>
 
 ## 디렉터리 구조
+```
+├─main
+│  ├─generated
+│  ├─java
+│  │  └─kr.ac.kumoh
+│  │      └─allimi
+│  │          ├─controller
+│  │          ├─domain
+│  │          ├─dto
+│  │          ├─exception
+│  │          ├─repository
+│  │          ├─s3
+│  │          └─service
+│  └─resources
+│      ├─static
+│      │  ├─css
+│      │  └─js
+│      └─templates
+│          └─fragments
+└─test
+    └─java
+        └─kr.ac.kumoh
+            └─allimi
+                ├─controller
+                ├─domain
+                └─service
+```
+
 ### main/java 패키지
 #### controller
 - 매핑된 url에 해당하는 요청을 받는다.
